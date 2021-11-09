@@ -1,5 +1,6 @@
 package tapu.auctionshortenedurl.api.controllers;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import tapu.auctionshortenedurl.business.abstracts.UrlService;
 import tapu.auctionshortenedurl.business.abstracts.UserService;
 import tapu.auctionshortenedurl.entities.Url;
 import tapu.auctionshortenedurl.entities.User;
+import tapu.auctionshortenedurl.entities.Dtos.IdOutDto;
 import tapu.auctionshortenedurl.entities.Dtos.SignupDto;
 import tapu.auctionshortenedurl.entities.Dtos.UrlAddDto;
 import tapu.auctionshortenedurl.entities.Dtos.UrlOutDto;
@@ -38,8 +40,8 @@ public class UsersController {
 		return userService.getUsers();
 	}
 	@PostMapping("/signup")
-	public int signup(@RequestBody SignupDto signupDto) {
-		return userService.signup(signupDto);
+	public IdOutDto signup(@RequestBody SignupDto signupDto) {
+		return new IdOutDto(userService.signup(signupDto));
 	}
 	
 	
