@@ -10,4 +10,5 @@ public interface UrlDao extends JpaRepository<Url, Integer>{
 	List<Url> getByUser_Id(int userId);
 	Url getByIdAndUser_Id(int id,int userId);
 	Url getByUrlAndUser_Id(String url,int userId);
+	Url getByShortened(String shortenedUrl);
 }

@@ -18,12 +18,13 @@ import tapu.auctionshortenedurl.business.abstracts.UserService;
 import tapu.auctionshortenedurl.entities.Url;
 import tapu.auctionshortenedurl.entities.User;
 import tapu.auctionshortenedurl.entities.Dtos.IdOutDto;
+import tapu.auctionshortenedurl.entities.Dtos.ReturnRealUrlDto;
 import tapu.auctionshortenedurl.entities.Dtos.SignupDto;
 import tapu.auctionshortenedurl.entities.Dtos.UrlAddDto;
 import tapu.auctionshortenedurl.entities.Dtos.UrlOutDto;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/")
 public class UsersController {
 
 	private UserService userService;
@@ -35,30 +36,34 @@ public class UsersController {
 		this.urlService=urlService;
 	}
 
-	@GetMapping("/getusers")
+	@GetMapping("user/getusers")
 	public List<User> getAllUsers(){
 		return userService.getUsers();
 	}
-	@PostMapping("/signup")
+	@PostMapping("user/signup")
 	public IdOutDto signup(@RequestBody SignupDto signupDto) {
 		return new IdOutDto(userService.signup(signupDto));
 	}
 	
 	
-	@RequestMapping(value = "/{userid}/url/create",method = RequestMethod.POST)
+	@RequestMapping(value = "user/{userid}/url/create",method = RequestMethod.POST)
 	public UrlOutDto addUrl(@PathVariable("userid") String userId, @RequestBody UrlAddDto urlDto) {
 		int userIdentity=Integer.parseInt(userId);
 		return urlService.addUrl(urlDto,userIdentity);
 	}
-	@RequestMapping(value = "/{userid}/url/list",method = RequestMethod.GET)
+	@RequestMapping(value = "user/{userid}/url/list",method = RequestMethod.GET)
 	public List<Url> getAllUrls(@PathVariable("userid")int userId){
 		return urlService.getUrlsByUserId(userId);
 	}
-	@RequestMapping(value = "/{userid}/url/detail/{urlid}",method = RequestMethod.GET)
+	@RequestMapping(value = "user/{userid}/url/detail/{urlid}",method = RequestMethod.GET)
 	public Url getUrl (@PathVariable("userid") int userId,@PathVariable("urlid") int id){
 		return urlService.getByIdAndUserId(id,userId);
 	}
-	@RequestMapping(value = "/{userid}/url/detail/{urlid}",method = RequestMethod.DELETE)
+	@RequestMapping(value = "s/{shorturl}",method = RequestMethod.GET)
+	public ReturnRealUrlDto getRealUrl(@PathVariable("shorturl") String shortUrl) {
+		return urlService.getRealUrl(shortUrl);
+	}
+	@RequestMapping(value = "user/{userid}/url/detail/{urlid}",method = RequestMethod.DELETE)
 	public void delete (@PathVariable("userid") int userId,@PathVariable("urlid") int id){
 		Url url= urlService.getByIdAndUserId(id,userId);
 		urlService.delete(url);

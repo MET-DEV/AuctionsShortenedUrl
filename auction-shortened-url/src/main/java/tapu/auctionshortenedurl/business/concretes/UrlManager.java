@@ -13,6 +13,7 @@ import tapu.auctionshortenedurl.dataAccess.UrlDao;
 
 import tapu.auctionshortenedurl.entities.Url;
 import tapu.auctionshortenedurl.entities.User;
+import tapu.auctionshortenedurl.entities.Dtos.ReturnRealUrlDto;
 import tapu.auctionshortenedurl.entities.Dtos.UrlAddDto;
 import tapu.auctionshortenedurl.entities.Dtos.UrlOutDto;
 
@@ -83,6 +84,13 @@ public class UrlManager implements UrlService {
 			return true;
 		}
 		
+	}
+
+	@Override
+	public ReturnRealUrlDto getRealUrl(String shortUrl) {
+		System.out.println("http://localhost:8080/"+shortUrl);
+		
+		return new ReturnRealUrlDto(urlDao.getByShortened("http://localhost:8080/"+shortUrl).getUrl());
 	}
 
 }
